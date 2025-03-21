@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --ntasks=4
+#SBATCH --ntasks=1
 
 module purge
 module load foss/2022a
@@ -7,7 +7,7 @@ module load Python/3.11.3
 module load GCC/11.3.0
 module load mpi4py/3.1.4-Python-3.11.3
 
-srun -n 4 python3 helloworld.py
+srun -n 1 python3 case1.py
 
 ##DO NOT ADD/EDIT BEYOND THIS LINE##
 ##Job monitor command to list the resource usage

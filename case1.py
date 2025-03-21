@@ -1,7 +1,7 @@
 import json
 import heapq
-from dateutil import parser
 from datetime import datetime
+from mpi4py import MPI
 
 user_hp = []
 user_map = {}
@@ -9,7 +9,7 @@ user_map = {}
 time_hp = []
 time_map = {}
 
-with open("../mastodon-16m.ndjson", "r") as f:
+with open("../mastodon-106k.ndjson", "r") as f:
     for line in f:
         item = json.loads(line)
         username = item.get("doc", {}).get("account", {}).get("username")
