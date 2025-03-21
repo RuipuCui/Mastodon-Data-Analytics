@@ -9,8 +9,11 @@ user_map = {}
 time_hp = []
 time_map = {}
 
+num = 0
+
 with open("../mastodon-106k.ndjson", "r") as f:
     for line in f:
+        num += 1
         item = json.loads(line)
         username = item.get("doc", {}).get("account", {}).get("username")
         sentiment = item.get("doc", {}).get("sentiment")
@@ -40,6 +43,7 @@ print("5 happiest persons are", top_5_users)
 print("5 saddest persons are", bottom_5_users)
 print("5 happiest hour are", top_5_times)
 print("5 saddest hour are", bottom_5_time)
+print(num)
 
 
 
