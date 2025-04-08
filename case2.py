@@ -3,15 +3,15 @@ import heapq
 from datetime import datetime
 from mpi4py import MPI
 import os
-import time
+import time as t
 
 comm = MPI.COMM_WORLD
 rank = comm.Get_rank()
 size = comm.Get_size()
 
-filename = "../mastodon-144g.ndjson"
+filename = "../mastodon-16m.ndjson"
 
-# timer = time.time()
+timer = t.time()
 
 # Get total file size
 file_size = os.path.getsize(filename)
@@ -88,7 +88,7 @@ all_time_map = comm.gather(time_map, root = 0)
 print("number of lines: " + str(num))
 
 if rank == 0:
-    # run_time = time.time() - timer
+    run_time = t.time() - timer
 
     total_user_map = {}
     total_time_map = {}
@@ -106,7 +106,7 @@ if rank == 0:
     top_5_times = heapq.nlargest(5, total_time_map.items(), key=lambda x: x[1])
     bottom_5_time = heapq.nsmallest(5, total_time_map.items(), key=lambda x: x[1])
     
-    # print("program ran for: " + run_time)
+    print("program ran for: " + str(run_time))
     print()
     print("***** TOP 5 USERS *****")
     print(top_5_users)
