@@ -1,7 +1,8 @@
 #!/bin/bash
 #SBATCH --partition=sapphire
 #SBATCH --nodes=1
-#SBATCH --ntasks=1   
+#SBATCH --ntasks=1  
+#SBATCH --time=01:30:00
 
 module purge
 module load foss/2022a

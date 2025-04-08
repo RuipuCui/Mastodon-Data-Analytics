@@ -13,7 +13,7 @@ user_map = {}
 time_hp = []
 time_map = {}
 
-with open("../mastodon-106k.ndjson", "r") as f:
+with open("../mastodon-144g.ndjson", "r") as f:
     for line in f:
         item = json.loads(line)
         username = item.get("doc", {}).get("account", {}).get("username")
@@ -48,6 +48,8 @@ top_5_times = heapq.nlargest(5, time_map.items(), key=lambda x: x[1])
 bottom_5_times = heapq.nsmallest(5, time_map.items(), key=lambda x: x[1])
 
 run_time = t.time() - timer
+
+print("case 1: 1 nodes, 1 cores")
 
 print(f"\nProgram ran for: {run_time:.2f} seconds\n")
 

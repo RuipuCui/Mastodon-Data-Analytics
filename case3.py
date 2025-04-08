@@ -104,7 +104,7 @@ if rank == 0:
 
     run_time = t.time() - timer
 
-    print("case 2: 1 nodes, 8 cores")
+    print("case 3: 2 nodes, 4 cores per node")
 
     print(f"\nProgram ran for: {run_time:.2f} seconds\n")
 
@@ -125,4 +125,3 @@ if rank == 0:
     print("\n***** BOTTOM 5 TIMES *****")
     for time_key, sentiment in bottom_5_times:
         print(f"Time: {time_key:<16} Total Sentiment: {sentiment:.4f}")
-

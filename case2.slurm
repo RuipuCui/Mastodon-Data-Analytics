@@ -3,6 +3,7 @@
 #SBATCH --nodes=1 
 #SBATCH --ntasks=8  
 #SBATCH --ntasks-per-node=8
+#SBATCH --time=01:30:00
 
 module purge
 module load foss/2022a

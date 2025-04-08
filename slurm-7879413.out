@@ -1,0 +1,64 @@
+
+The following have been reloaded with a version change:
+  1) zlib/1.2.12 => zlib/1.2.13
+
+
+Program ran for: 290.58 seconds
+
+***** TOP 5 USERS *****
+User ID: 110237351908820391     Username: gameoflife           Total Sentiment: 9105.7419
+User ID: 112728392129924952     Username: TheFigen_            Total Sentiment: 2541.4742
+User ID: 113441357479871732     Username: EmojiAquarium        Total Sentiment: 2086.4567
+User ID: 113541715572887376     Username: choochoo             Total Sentiment: 1978.7431
+User ID: 110006430181118061     Username: hnbot                Total Sentiment: 1917.7936
+
+***** TOP 5 TIMES *****
+Time: 2025-01-01 00    Total Sentiment: 206.1521
+Time: 2024-12-31 23    Total Sentiment: 187.4655
+Time: 2025-01-01 05    Total Sentiment: 135.9252
+Time: 2024-12-24 22    Total Sentiment: 117.2863
+Time: 2024-12-25 15    Total Sentiment: 114.6020
+
+***** BOTTOM 5 USERS *****
+User ID: 109521050152429017     Username: realTuckFrumper      Total Sentiment: -9094.0813
+User ID: 109471254002284799     Username: uavideos             Total Sentiment: -5901.9603
+User ID: 113443732887173058     Username: TheHindu             Total Sentiment: -5710.7226
+User ID: 111873606251312850     Username: uutisbot             Total Sentiment: -4066.1382
+User ID: 112071598249945636     Username: MissingYou           Total Sentiment: -3341.6033
+
+***** BOTTOM 5 TIMES *****
+Time: 2024-11-06 07    Total Sentiment: -373.7672
+Time: 2024-09-11 01    Total Sentiment: -305.5761
+Time: 2025-01-30 17    Total Sentiment: -256.5684
+Time: 2025-01-30 18    Total Sentiment: -226.9097
+Time: 2025-02-03 16    Total Sentiment: -223.8335
+Job ID           : 7879413
+Cluster          : spartan
+User/Project     : ruipuc/comp90024
+Nodes            : 1
+Wall-clock time  : 00:05:11 / 00:10:00
+
+Displaying overall resources usage from 2025-04-08 20:29:03 to 2025-04-08 20:34:14:
+
+NODE            CPU#        TOT%   ( USR   / SYS   / WIO   / IDLE  ) 
+
+spartan-bm161 : 
+                CPU# 1    : -2.0   (  -1.0 /  -1.0 /  -1.0 /  -1.0 ) 
+                CPU# 2    : -2.0   (  -1.0 /  -1.0 /  -1.0 /  -1.0 ) 
+                CPU# 3    : -2.0   (  -1.0 /  -1.0 /  -1.0 /  -1.0 ) 
+                CPU# 4    : -2.0   (  -1.0 /  -1.0 /  -1.0 /  -1.0 ) 
+                CPU# 5    : -2.0   (  -1.0 /  -1.0 /  -1.0 /  -1.0 ) 
+                CPU# 6    : -2.0   (  -1.0 /  -1.0 /  -1.0 /  -1.0 ) 
+                CPU# 7    : -2.0   (  -1.0 /  -1.0 /  -1.0 /  -1.0 ) 
+                CPU# 8    : -2.0   (  -1.0 /  -1.0 /  -1.0 /  -1.0 ) 
+
+
+Allocated CPUs            : 8    
+  CPUs with usage <25%    : 8    
+  CPUs with usage <50%    : 0    
+  CPUs with usage >50%    : 0    
+
+Memory used (RAM)         : 0.0%  [5MB of 33555MB]
+
+--------------------------------------------
+
