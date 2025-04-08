@@ -3,18 +3,22 @@ import heapq
 from datetime import datetime
 from mpi4py import MPI
 import os
+import time
 
 comm = MPI.COMM_WORLD
 rank = comm.Get_rank()
 size = comm.Get_size()
 
-filename = "../mastodon-16m.ndjson"
+filename = "../mastodon-144g.ndjson"
+
+# timer = time.time()
 
 # Get total file size
 file_size = os.path.getsize(filename)
 chunk_size = file_size // size
 start = rank * chunk_size
 end = file_size if rank == size - 1 else (rank + 1) * chunk_size
+# FIX: SKIPPING LINES
 
 num = 0
 user_hp = []
@@ -25,6 +29,7 @@ time_map = {}
 
 print(f"Rank {rank} reading bytes from {start} to {end - 1}")
 
+# OPTIMIZE: SEND LISTS NOT MAP
 with open(filename, 'r', encoding='utf-8') as f:
     # Move to start offset
     f.seek(start)
@@ -35,7 +40,7 @@ with open(filename, 'r', encoding='utf-8') as f:
 
     current_position = f.tell()
 
-    while current_position <= end:
+    while current_position < end:
         line = f.readline()
         num += 1
         if not line:
@@ -64,19 +69,36 @@ with open(filename, 'r', encoding='utf-8') as f:
             time_map[time] += sentiment
         else:
             time_map[time] = sentiment
-
-total_user_map = comm.gather(user_map, root = 0)
-total_time_map = comm.gather(time_map, root = 0)
+        
+all_user_map = comm.gather(user_map, root = 0)
+all_time_map = comm.gather(time_map, root = 0)
 
 if rank == 0:
-    top_5_users = heapq.nlargest(5, total_user_map[0].items(), key=lambda x: x[1])
-    bottom_5_users = heapq.nsmallest(5, total_user_map[0].items(), key=lambda x: x[1])
-    top_5_times = heapq.nlargest(5, total_time_map[0].items(), key=lambda x: x[1])
-    bottom_5_time = heapq.nsmallest(5, total_time_map[0].items(), key=lambda x: x[1])
+    # run_time = time.time() - timer
+
+    total_user_map = {}
+    total_time_map = {}
+
+    for process_user_map in all_user_map:
+        for user, sentiment in process_user_map.items():
+            total_user_map[user] = total_user_map.get(user, 0) + sentiment
+
+    for process_time_map in all_time_map:
+        for time, sentiment in process_time_map.items():
+            total_time_map[time] = total_time_map.get(time, 0) + sentiment
+
+    top_5_users = heapq.nlargest(5, total_user_map.items(), key=lambda x: x[1])
+    bottom_5_users = heapq.nsmallest(5, total_user_map.items(), key=lambda x: x[1])
+    top_5_times = heapq.nlargest(5, total_time_map.items(), key=lambda x: x[1])
+    bottom_5_time = heapq.nsmallest(5, total_time_map.items(), key=lambda x: x[1])
+    
+    # print("program ran for: " + run_time)
+    print()
+    print("***** TOP 5 USERS *****")
     print(top_5_users)
-    print("******************")
+    print("***** TOP 5 TIMES *****")
     print(top_5_times)
-    print("******************")
+    print("***** BOTTOM 5 USERS *****")
     print(bottom_5_users)
-    print("******************")
+    print("***** BOTTOM 5 TIMES *****")
     print(bottom_5_time)
