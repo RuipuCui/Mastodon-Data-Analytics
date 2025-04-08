@@ -9,7 +9,7 @@ comm = MPI.COMM_WORLD
 rank = comm.Get_rank()
 size = comm.Get_size()
 
-filename = "../mastodon-16m.ndjson"
+filename = "../mastodon-106k.ndjson"
 
 timer = t.time()
 
@@ -20,14 +20,13 @@ start = rank * chunk_size
 end = file_size if rank == size - 1 else (rank + 1) * chunk_size
 # FIX: SKIPPING LINES
 
-num = 0
 user_hp = []
 user_map = {}
 
 time_hp = []
 time_map = {}
 
-print(f"Rank {rank} reading bytes from {start} to {end - 1}")
+# print(f"Rank {rank} reading bytes from {start} to {end - 1}")
 
 # OPTIMIZE: SEND LISTS NOT MAP
 with open(filename, 'r', encoding='utf-8') as f:
@@ -68,9 +67,7 @@ with open(filename, 'r', encoding='utf-8') as f:
             continue
         time = f"{dt.date().isoformat()} {dt.hour:02d}"
 
-        num += 1
-
-        user_info = str(user_id) + username
+        user_info = str(user_id) + '$' +username
 
         if user_info in user_map:
             user_map[user_info] += sentiment
@@ -85,10 +82,9 @@ with open(filename, 'r', encoding='utf-8') as f:
 all_user_map = comm.gather(user_map, root = 0)
 all_time_map = comm.gather(time_map, root = 0)
 
-print("number of lines: " + str(num))
+# print("number of lines: " + str(num))
 
 if rank == 0:
-    run_time = t.time() - timer
 
     total_user_map = {}
     total_time_map = {}
@@ -98,21 +94,33 @@ if rank == 0:
             total_user_map[user] = total_user_map.get(user, 0) + sentiment
 
     for process_time_map in all_time_map:
-        for time, sentiment in process_time_map.items():
-            total_time_map[time] = total_time_map.get(time, 0) + sentiment
+        for time_key, sentiment in process_time_map.items():
+            total_time_map[time_key] = total_time_map.get(time_key, 0) + sentiment
 
     top_5_users = heapq.nlargest(5, total_user_map.items(), key=lambda x: x[1])
     bottom_5_users = heapq.nsmallest(5, total_user_map.items(), key=lambda x: x[1])
     top_5_times = heapq.nlargest(5, total_time_map.items(), key=lambda x: x[1])
-    bottom_5_time = heapq.nsmallest(5, total_time_map.items(), key=lambda x: x[1])
-    
-    print("program ran for: " + str(run_time))
-    print()
+    bottom_5_times = heapq.nsmallest(5, total_time_map.items(), key=lambda x: x[1])
+
+    run_time = t.time() - timer
+
+    print(f"\nProgram ran for: {run_time:.2f} seconds\n")
+
     print("***** TOP 5 USERS *****")
-    print(top_5_users)
-    print("***** TOP 5 TIMES *****")
-    print(top_5_times)
-    print("***** BOTTOM 5 USERS *****")
-    print(bottom_5_users)
-    print("***** BOTTOM 5 TIMES *****")
-    print(bottom_5_time)
+    for user_info, sentiment in top_5_users:
+        uid, uname = user_info.split('$', 1)
+        print(f"User ID: {uid:<22} Username: {uname:<20} Total Sentiment: {sentiment:.4f}")
+
+    print("\n***** TOP 5 TIMES *****")
+    for time_key, sentiment in top_5_times:
+        print(f"Time: {time_key:<16} Total Sentiment: {sentiment:.4f}")
+
+    print("\n***** BOTTOM 5 USERS *****")
+    for user_info, sentiment in bottom_5_users:
+        uid, uname = user_info.split('$', 1)
+        print(f"User ID: {uid:<22} Username: {uname:<20} Total Sentiment: {sentiment:.4f}")
+
+    print("\n***** BOTTOM 5 TIMES *****")
+    for time_key, sentiment in bottom_5_times:
+        print(f"Time: {time_key:<16} Total Sentiment: {sentiment:.4f}")
+
