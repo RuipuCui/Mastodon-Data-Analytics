@@ -42,28 +42,40 @@ with open(filename, 'r', encoding='utf-8') as f:
 
     while current_position < end:
         line = f.readline()
-        num += 1
+        
         if not line:
             break  # EOF
         # Process the line
         #print(f"Rank {rank} read: {line.strip()} END%^&**(*^%%$)")
         current_position = f.tell()
 
-        item = json.loads(line)
+        try:
+            item = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+
         username = item.get("doc", {}).get("account", {}).get("username")
+        user_id = item.get("doc", {}).get("account", {}).get("id")
         sentiment = item.get("doc", {}).get("sentiment")
         createdAt = item.get("doc", {}).get("createdAt")
 
-        if username is None and sentiment is None and createdAt is None:
+        if user_id is None or username is None or sentiment is None or createdAt is None:
             continue
 
-        dt = datetime.fromisoformat(createdAt.replace("Z", "+00:00"))
+        try:
+            dt = datetime.fromisoformat(createdAt.replace("Z", "+00:00"))
+        except ValueError:
+            continue
         time = f"{dt.date().isoformat()} {dt.hour:02d}"
 
-        if username in user_map:
-            user_map[username] += sentiment
+        num += 1
+
+        user_info = str(user_id) + username
+
+        if user_info in user_map:
+            user_map[user_info] += sentiment
         else:
-            user_map[username] = sentiment
+            user_map[user_info] = sentiment
 
         if time in time_map:
             time_map[time] += sentiment
@@ -72,6 +84,8 @@ with open(filename, 'r', encoding='utf-8') as f:
         
 all_user_map = comm.gather(user_map, root = 0)
 all_time_map = comm.gather(time_map, root = 0)
+
+print("number of lines: " + str(num))
 
 if rank == 0:
     # run_time = time.time() - timer
