@@ -4,7 +4,7 @@ The following have been reloaded with a version change:
 
 case 3: 2 nodes, 4 cores per node
 
-Program ran for: 254.38 seconds
+Program ran for: 259.26 seconds
 
 ***** TOP 5 USERS *****
 User ID: 110237351908820391     Username: gameoflife           Total Sentiment: 9105.7419
@@ -33,23 +33,23 @@ Time: 2024-09-11 01    Total Sentiment: -305.5761
 Time: 2025-01-30 17    Total Sentiment: -256.5684
 Time: 2025-01-30 18    Total Sentiment: -226.9097
 Time: 2025-02-03 16    Total Sentiment: -223.8335
-Job ID           : 7880335
+Job ID           : 7881659
 Cluster          : spartan
 User/Project     : ruipuc/comp90024
 Nodes            : 2
-Wall-clock time  : 00:04:19 / 01:30:00
+Wall-clock time  : 00:04:25 / 01:30:00
 
-Displaying overall resources usage from 2025-04-08 20:57:49 to 2025-04-08 21:02:08:
+Displaying overall resources usage from 2025-04-08 21:47:37 to 2025-04-08 21:52:02:
 
 NODE            CPU#        TOT%   ( USR   / SYS   / WIO   / IDLE  ) 
 
-spartan-bm143 : 
+spartan-bm163 : 
                 CPU# 1    : -2.0   (  -1.0 /  -1.0 /  -1.0 /  -1.0 ) 
                 CPU# 2    : -2.0   (  -1.0 /  -1.0 /  -1.0 /  -1.0 ) 
                 CPU# 3    : -2.0   (  -1.0 /  -1.0 /  -1.0 /  -1.0 ) 
                 CPU# 4    : -2.0   (  -1.0 /  -1.0 /  -1.0 /  -1.0 ) 
 
-spartan-bm158 : 
+spartan-bm165 : 
                 CPU# 5    : -2.0   (  -1.0 /  -1.0 /  -1.0 /  -1.0 ) 
                 CPU# 6    : -2.0   (  -1.0 /  -1.0 /  -1.0 /  -1.0 ) 
                 CPU# 7    : -2.0   (  -1.0 /  -1.0 /  -1.0 /  -1.0 ) 
@@ -61,7 +61,7 @@ Allocated CPUs            : 8
   CPUs with usage <50%    : 0    
   CPUs with usage >50%    : 0    
 
-Memory used (RAM)         : 0.0%  [6MB of 33555MB]
+Memory used (RAM)         : 0.0%  [5MB of 33555MB]
 
 --------------------------------------------
 
